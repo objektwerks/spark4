@@ -8,7 +8,7 @@ Note
 
 ```java.lang.UnsupportedOperationException: getSubject is not supported```
 
->The **Security Manager** has been permanently disabled in JDK 24.
+>The **Security Manager**, the likely culprit, has been permanently disabled in JDK 24.
 
 >Spark 4 currently requires JDK 17/21.
 
