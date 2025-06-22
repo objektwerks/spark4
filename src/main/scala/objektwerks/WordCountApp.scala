@@ -21,3 +21,4 @@ final case class Count(value: String, count: Long)
     .collect
     .map { case (line, count) => Count(line, count) }
   println(s"*** Word count: ${counts.length}")
+  for (count <- counts) println(s"$count")
