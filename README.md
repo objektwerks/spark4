@@ -21,4 +21,5 @@ Logs
 
 Resources
 ---------
+* [Spark Docs](https://spark.apache.org/docs/latest/)
 * [Spark4-Scala3](https://vincenzobaz.github.io/spark-scala3/)
