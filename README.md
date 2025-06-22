@@ -21,5 +21,6 @@ Logs
 
 Resources
 ---------
+* [Spark 4 Intro](https://www.databricks.com/blog/introducing-apache-spark-40)
 * [Spark Docs](https://spark.apache.org/docs/latest/)
 * [Spark4-Scala3](https://vincenzobaz.github.io/spark-scala3/)
