@@ -1,1 +1,1 @@
--Djava-home=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home
+-DJAVA_HOME=$SPARK_JAVA_HOME
