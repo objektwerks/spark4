@@ -10,7 +10,7 @@ Note
 
 >The **Security Manager** has been permanently disabled in JDK 24.
 
->Spark requires JDK 17/21.
+>Spark 4 currently requires JDK 17/21.
 
 Build
 -----
