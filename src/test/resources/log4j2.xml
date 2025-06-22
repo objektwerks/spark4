@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <File name="test" fileName="target/test.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="objektwerks" level="info" additivity="false">
+            <AppenderRef ref="test"/>
+        </Logger>
+        <Logger name="org.apache.spark" level="info" additivity="false">
+            <AppenderRef ref="test"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="test"/>
+        </Root>
+    </Loggers>
+</Configuration>
