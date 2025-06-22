@@ -5,7 +5,7 @@ Spark 4
 Note
 ----
 >The **WordCountApp** yields this error: ```java.lang.UnsupportedOperationException: getSubject is not supported```
->Spark likely requires an older JDK version. And I'm on JDK 24. Classic. :)
+>Spark requires an older JDK version. I'm on JDK 24, which has permanently disabled the **SecurityManager**. Classic. :)
 
 Build
 -----
