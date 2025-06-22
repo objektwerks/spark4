@@ -8,8 +8,6 @@ final case class Count(value: String, count: Long)
   val sparkSession = SparkSession
     .builder()
     .master("local")
-    .config("spark.driver.extraJavaOptions", "-Djava.security.manager=allow")
-    .config("spark.executor.extraJavaOptions", "-Djava.security.manager=allow")
     .getOrCreate
 
   import scala3encoders.given
