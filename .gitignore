@@ -1,9 +1,6 @@
 .*
 !.gitignore
-!.jvmopts
 project/metals.sbt
 project/project/
 project/target/
 target/
-metastore_db/
-derby.log
