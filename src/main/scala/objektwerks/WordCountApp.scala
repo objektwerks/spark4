@@ -5,7 +5,12 @@ import org.apache.spark.sql.SparkSession
 final case class Count(value: String, count: Long)
 
 @main def runWordCountApp: Unit =
-  val sparkSession = SparkSession.builder().master("local").getOrCreate
+  val sparkSession = SparkSession
+    .builder()
+    .master("local")
+    .config("spark.driver.extraJavaOptions", "-Djava.security.manager=allow")
+    .config("spark.executor.extraJavaOptions", "-Djava.security.manager=allow")
+    .getOrCreate
 
   import scala3encoders.given
 
