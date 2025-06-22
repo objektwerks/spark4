@@ -2,6 +2,10 @@ Spark 4
 -------
 >Spark 4 feature tests using Scala 3.
 
+Note
+----
+>The **WordCountApp** yields this error: ```java.lang.UnsupportedOperationException: getSubject is not supported```
+
 Build
 -----
 1. sbt clean compile
