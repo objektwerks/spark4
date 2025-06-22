@@ -16,7 +16,6 @@ libraryDependencies ++= {
   )
 }
 scalacOptions ++= Seq(
-  "-target:21",
   "-Wunused:all"
 )
 javacOptions ++= Seq("-source", "21", "-target", "21")
