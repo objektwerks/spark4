@@ -12,6 +12,12 @@ Note
 
 >Spark 4 currently requires JDK 17/21.
 
+>And while **WordCountApp** works on JDK 21, the following exception is thrown:
+
+```java.nio.file.NoSuchFileException: ./hadoop-client-api-3.4.1.jar```
+
+JDK
+---
 >Setting ```JAVA_HOME``` to JDK 21 is the only way to enforce SBT's use of JDK 21. Using ```.jvmopts``` failed.
 
 Build
