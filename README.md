@@ -5,8 +5,12 @@ Spark 4
 Note
 ----
 >**WordCountApp**, executing on JDK 24, yields this error:
+
 ```java.lang.UnsupportedOperationException: getSubject is not supported```
->JDK 24 has permanently disabled the **Security Manager**. Spark requires JDK 17/21.
+
+>The **Security Manager** has been permanently disabled in JDK 24.
+
+>Spark requires JDK 17/21.
 
 Build
 -----
