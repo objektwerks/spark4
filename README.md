@@ -16,6 +16,8 @@ Note
 
 ```java.nio.file.NoSuchFileException: ./hadoop-client-api-3.4.1.jar```
 
+>Said jar is a Spark 4 dependency.
+
 JDK
 ---
 >Setting ```JAVA_HOME``` to JDK 21 is the only way to enforce SBT's use of JDK 21. Using ```.jvmopts``` failed.
