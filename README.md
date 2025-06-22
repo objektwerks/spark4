@@ -4,8 +4,8 @@ Spark 4
 
 Note
 ----
->The **WordCountApp** yields this error: ```java.lang.UnsupportedOperationException: getSubject is not supported```
->Spark requires JDK 17. I'm on JDK 24, which has permanently disabled the **Security Manager**. Classic, Databricks. :)
+>**WordCountApp** yields this error: ```java.lang.UnsupportedOperationException: getSubject is not supported```
+>due to runnong on JDK 24, which has permanently disabled the **Security Manager**. Spark requires JDK 17/21.
 
 Build
 -----
