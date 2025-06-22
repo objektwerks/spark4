@@ -1,9 +1,6 @@
 package objektwerks
 
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.Encoders
-import org.apache.spark.sql.Encoder
 
 final case class Count(value: String, count: Long)
 
