@@ -12,6 +12,8 @@ Note
 
 >Spark 4 currently requires JDK 17/21.
 
+>Setting ```JAVA_HOME``` to JDK 21 is the only way to enforce SBT's use of JDK 21. Using ```.jvmopts``` failed.
+
 Build
 -----
 1. sbt clean compile
