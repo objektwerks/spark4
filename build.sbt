@@ -18,4 +18,3 @@ libraryDependencies ++= {
 scalacOptions ++= Seq(
   "-Wunused:all"
 )
-javacOptions ++= Seq("-source", "21", "-target", "21")
