@@ -11,6 +11,6 @@ libraryDependencies ++= {
     ("org.apache.spark" %% "spark-streaming" % sparkVersion).cross(CrossVersion.for3Use2_13),
     "io.github.vincenzobaz" %% "spark4-scala3-encoders" % spark4Scala3Version,
     "io.github.vincenzobaz" %% "spark4-scala3-udf" % spark4Scala3Version,
-    ("org.scalatest" %% "scalatest" % "3.2.19").cross(CrossVersion.for3Use2_13) % Test
+    "org.scalatest" %% "scalatest" % "3.2.19" % Test
   )
 }
