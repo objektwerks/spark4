@@ -20,7 +20,7 @@ Issues
 
 >Said jar is a Spark 4 dependency. Adding ```fork := true``` to build.sbt resolves this error.
 
-3. Tests
+3. **Tests**
 >Due to unresovable dependency and type issues, switched from ScalaTest to MUnit.
 
 JDK
