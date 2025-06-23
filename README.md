@@ -13,7 +13,7 @@ Issues
 
 >Spark 4 currently requires JDK 17/21.
 
-2. Fork
+2. **Fork**
 >And while **WordCountApp** works on JDK 21, the following exception is thrown:
 
 ```java.nio.file.NoSuchFileException: ./hadoop-client-api-3.4.1.jar```
