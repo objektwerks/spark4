@@ -10,7 +10,7 @@ object SparkInstance:
       .master("local")
       .getOrCreate
 
-  def create(): (SparkSession, SparkContext) =
+  def sessionAndContext(): (SparkSession, SparkContext) =
     val session = SparkSession
       .builder()
       .master("local")

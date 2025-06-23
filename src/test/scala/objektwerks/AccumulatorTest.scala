@@ -5,7 +5,7 @@ import munit.FunSuite
 import scala.collection.JavaConverters.*
 
 final class AccumulatorTest extends FunSuite:
-  val (sparkSession, sparkContext) = SparkInstance.create()
+  val (sparkSession, sparkContext) = SparkInstance.sessionAndContext()
 
   test("long accumulator"):
     val longAcc = sparkContext.longAccumulator("longAcc")
