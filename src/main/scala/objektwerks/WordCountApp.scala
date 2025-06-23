@@ -1,15 +1,10 @@
 package objektwerks
 
-import org.apache.spark.sql.SparkSession
+import SparkInstance.*
 
 final case class Count(value: String, count: Long)
 
 @main def runWordCountApp: Unit =
-  val sparkSession = SparkSession
-    .builder()
-    .master("local")
-    .getOrCreate
-
   import scala3encoders.given
 
   val lines = sparkSession.read.textFile("./data/ipa.txt")

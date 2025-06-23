@@ -1,21 +1,21 @@
 package objektwerks
 
+import org.apache.logging.log4j.LogManager
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.SparkContext
 
 object SparkInstance:
-  def session(): SparkSession =
+  val logger = LogManager.getLogger(SparkInstance.getClass)
+
+  val sparkSession =
     SparkSession
       .builder()
       .master("local[*]")
       .appName("spark-app")
       .getOrCreate
+  val sparkContext = sparkSession.sparkContext
+  logger.info("*** Initialized Spark Session instance.")
 
-  def sessionAndContext(): (SparkSession, SparkContext) =
-    val session = SparkSession
-      .builder()
-      .master("local[*]")
-      .appName("spark-app")
-      .getOrCreate
-    val context = session.sparkContext
-    (session, context)
+  sys.addShutdownHook {
+    sparkSession.stop()
+    logger.info("*** Terminated Spark Session instance.")
+  }
