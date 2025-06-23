@@ -4,6 +4,12 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.SparkContext
 
 object SparkInstance:
+  def session(): SparkSession =
+    SparkSession
+      .builder()
+      .master("local")
+      .getOrCreate
+
   def create(): (SparkSession, SparkContext) =
     val session = SparkSession
       .builder()
