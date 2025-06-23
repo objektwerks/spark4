@@ -2,6 +2,8 @@ package objektwerks
 
 import munit.FunSuite
 
+import scala3encoders.given
+
 import SparkInstance.*
 
 class BroadcastTest extends FunSuite:
