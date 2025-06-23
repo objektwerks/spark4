@@ -6,7 +6,7 @@ import scala3encoders.given
 
 import SparkInstance.*
   
-class DescribeTest extends FunSuite:
+final class DescribeTest extends FunSuite:
   test("describe"):
     val persons = sparkSession.read.json("./data/person.json").as[Person].cache
     assert( persons.count == 4 )
