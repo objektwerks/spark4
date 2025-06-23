@@ -6,7 +6,7 @@ import scala3encoders.given
 
 import SparkInstance.*
 
-class BroadcastTest extends FunSuite:
+final class BroadcastTest extends FunSuite:
   test("broadcast variable"):
     val keyValues = List( KeyValue(1, 1), KeyValue(2, 2), KeyValue(3, 3) )
     val broadcastKeyValues = sparkContext.broadcast( keyValues )
