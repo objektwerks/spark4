@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager
 import org.apache.spark.sql.SparkSession
 
 object SparkInstance:
-  val logger = LogManager.getLogger(SparkInstance.getClass)
+  private val logger = LogManager.getLogger(SparkInstance.getClass)
 
   val sparkSession =
     SparkSession
