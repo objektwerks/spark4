@@ -2,8 +2,6 @@ package objektwerks
 
 import SparkInstance.*
 
-final case class Count(value: String, count: Long)
-
 @main def runWordCountApp: Unit =
   import scala3encoders.given
 
