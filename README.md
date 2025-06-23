@@ -4,6 +4,7 @@ Spark 4
 
 Issues
 ------
+1. JDK
 >**WordCountApp**, executing on JDK 24, yields this error:
 
 ```java.lang.UnsupportedOperationException: getSubject is not supported```
@@ -12,11 +13,15 @@ Issues
 
 >Spark 4 currently requires JDK 17/21.
 
+2. Fork
 >And while **WordCountApp** works on JDK 21, the following exception is thrown:
 
 ```java.nio.file.NoSuchFileException: ./hadoop-client-api-3.4.1.jar```
 
 >Said jar is a Spark 4 dependency. Adding ```fork := true``` to build.sbt resolves this error.
+
+3. Tests
+>Due to unresovable type issues and the like, switched from ScalaTest to MUnit.
 
 JDK
 ---
