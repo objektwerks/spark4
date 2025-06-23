@@ -1,30 +1,28 @@
 package objektwerks
 
-import org.scalatest.funsuite.AnyFunSuite
-import org.scalatest.matchers.should.Matchers
+import munit.FunSuite
 
 import scala.collection.JavaConverters.*
 
-final class AccumulatorTest extends AnyFunSuite with Matchers:
-  val sparkSession = SparkInstance.create()
-  val sparkContext = sparkSession.sparkContext
+final class AccumulatorTest extends FunSuite:
+  val (sparkSession, sparkContext) = SparkInstance.create()
 
   test("long accumulator"):
     val longAcc = sparkContext.longAccumulator("longAcc")
     longAcc.add(1)
-    longAcc.name.get shouldBe "longAcc"
-    longAcc.value shouldBe 1
+    assert( longAcc.name.get == "longAcc" )
+    assert( longAcc.value == 1 )
 
   test("double accumulator"):
     val doubleAcc = sparkContext.doubleAccumulator("doubleAcc")
     doubleAcc.add(1.0)
-    doubleAcc.name.get shouldBe "doubleAcc"
-    doubleAcc.value shouldBe 1.0
+    assert( doubleAcc.name.get == "doubleAcc" )
+    assert( doubleAcc.value == 1.0 )
 
   test("collection accumulator"):
     val intsAcc = sparkContext.collectionAccumulator[Int]("intsAcc")
     intsAcc.add(1)
     intsAcc.add(2)
     intsAcc.add(3)
-    intsAcc.name.get shouldBe "intsAcc"
-    intsAcc.value.asScala.sum shouldEqual 6
+    assert( intsAcc.name.get == "intsAcc" )
+    assert( intsAcc.value.asScala.sum == 6 )
