@@ -206,11 +206,11 @@ class DataframeTest extends FunSuite {
   test("join") {
     val persons = sparkSession.read.json("./data/person/person.json").cache
     val tasks = sparkSession.read.json("./data/task/task.json").cache
-    persons.count shouldBe 4
-    tasks.count shouldBe 4
+    assert( persons.count == 4 )
+    assert( tasks.count == 4 )
 
     val joinCondition = persons.col("id") === tasks.col("pid")
     val personsTasks = persons.join(tasks, joinCondition)
-    personsTasks.count shouldBe 4
+    assert( personsTasks.count == 4 )
   }
 }
