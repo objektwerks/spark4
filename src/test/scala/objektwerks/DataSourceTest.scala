@@ -7,6 +7,8 @@ import org.apache.spark.sql.Dataset
 import scala3encoders.given
 
 import SparkInstance.*
+import org.h2.jdbcx.JdbcDataSource
+import org.apache.spark.sql.SaveMode
 
 class DataSourceTest extends FunSuite:
   test("csv"):
@@ -70,7 +72,10 @@ class DataSourceTest extends FunSuite:
     assert( persons.head.age == 21 )
 
   test("jdbc"):
-    assert( prepareDatasource == false ) // Prepare
+    val ds = new JdbcDataSource() // DataSource
+    ds.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;AUTO_RECONNECT=TRUE;INIT=runscript from 'classpath:/ddl.sql'")
+    ds.setUser("sa")
+    ds.setPassword("sa")
 
     val persons = readPersonsDatasource  // Source
     val avgAgeByRole = personsToAvgAgeByRole(persons)  // Flow
@@ -78,22 +83,6 @@ class DataSourceTest extends FunSuite:
 
     val avgAgeByRoles = readAvgAgeByRoleDatasource  // Verify
     assert( avgAgeByRoles.count == 2 )
-
-  private def prepareDatasource: Boolean = {
-    Class.forName("org.h2.Driver")
-    ConnectionPool.singleton("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "sa", "sa")
-    implicit val session = AutoSession
-    sql"""
-          drop table persons if exists;
-          drop table avg_age_by_role if exists;
-          create table persons (id int not null, age int not null, name varchar(64) not null, role varchar(64) not null);
-          insert into persons values (1, 24, 'fred', 'husband');
-          insert into persons values (2, 23, 'wilma', 'wife');
-          insert into persons values (3, 22, 'barney', 'husband');
-          insert into persons values (4, 21, 'betty', 'wife');
-          create table avg_age_by_role (role varchar(64) not null, avgAge double not null);
-      """.execute.apply
-  }
 
   private def readPersonsDatasource: Dataset[Person] =
     sparkSession
