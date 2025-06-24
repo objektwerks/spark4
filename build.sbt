@@ -11,6 +11,7 @@ libraryDependencies ++= {
     ("org.apache.spark" %% "spark-core" % sparkVersion).cross(CrossVersion.for3Use2_13),
     ("org.apache.spark" %% "spark-sql" % sparkVersion).cross(CrossVersion.for3Use2_13),
     ("org.apache.spark" %% "spark-streaming" % sparkVersion).cross(CrossVersion.for3Use2_13),
+    "com.h2database" % "h2" % "2.3.232",
     "org.scalameta" %% "munit" % "1.1.1" % Test
   )
 }
