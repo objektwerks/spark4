@@ -45,11 +45,15 @@ class DatasetTest extends FunSuite {
   }
 
   test("add column") {
-    dataset
-      .withColumn("dogAge", $"age" * 7)
-      .as[PersonAsDog]
-      .head
-      .dogAge shouldBe 168
+    import sparkSession.implicits.*
+
+    assert(
+      dataset
+        .withColumn("dogAge", $"age" * 7)
+        .as[PersonAsDog]
+        .head
+        .dogAge == 168
+    )
   }
 
   test("update") {
