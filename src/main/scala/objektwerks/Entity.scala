@@ -23,12 +23,11 @@ object KeyValue:
 
 final case class Person(id: Long, age: Long, name: String, role: String)
 object Person:
-  val personStructType =
-    new StructType()
-      .add("id", IntegerType)
-      .add("age", IntegerType)
-      .add("name", StringType)
-      .add("role", StringType)
+  val personStructType = new StructType()
+    .add("id", IntegerType)
+    .add("age", IntegerType)
+    .add("name", StringType)
+    .add("role", StringType)
   val personForeachWriter = new ForeachWriter[Person]:
     override def open(partitionId: Long, version: Long): Boolean = true
     override def process(person: Person): Unit = println(s"$person")
