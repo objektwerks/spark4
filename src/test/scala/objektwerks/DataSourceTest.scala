@@ -2,6 +2,8 @@ package objektwerks
 
 import munit.FunSuite
 
+import org.apache.spark.sql.Dataset
+
 import scala3encoders.given
 
 import SparkInstance.*
@@ -66,3 +68,72 @@ class DataSourceTest extends FunSuite:
     assert( persons.count == 2 )
     assert( persons.head.name == "betty" )
     assert( persons.head.age == 21 )
+
+  test("jdbc"):
+    assert( prepareDatasource == false ) // Prepare
+
+    val persons = readPersonsDatasource  // Source
+    val avgAgeByRole = personsToAvgAgeByRole(persons)  // Flow
+    writeAvgAgeByRoleDatasource(avgAgeByRole)  // Sink
+
+    val avgAgeByRoles = readAvgAgeByRoleDatasource  // Verify
+    assert( avgAgeByRoles.count == 2 )
+
+  private def prepareDatasource: Boolean = {
+    Class.forName("org.h2.Driver")
+    ConnectionPool.singleton("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "sa", "sa")
+    implicit val session = AutoSession
+    sql"""
+          drop table persons if exists;
+          drop table avg_age_by_role if exists;
+          create table persons (id int not null, age int not null, name varchar(64) not null, role varchar(64) not null);
+          insert into persons values (1, 24, 'fred', 'husband');
+          insert into persons values (2, 23, 'wilma', 'wife');
+          insert into persons values (3, 22, 'barney', 'husband');
+          insert into persons values (4, 21, 'betty', 'wife');
+          create table avg_age_by_role (role varchar(64) not null, avgAge double not null);
+      """.execute.apply
+  }
+
+  private def readPersonsDatasource: Dataset[Person] =
+    sparkSession
+      .read
+      .format("jdbc")
+      .option("driver", "org.h2.Driver")
+      .option("url", "jdbc:h2:mem:test")
+      .option("user", "sa")
+      .option("password", "sa")
+      .option("dbtable", "persons")
+      .load
+      .as[Person]
+
+  private def personsToAvgAgeByRole(persons: Dataset[Person]): Dataset[AvgAgeByRole] =
+    persons
+      .groupBy("role")
+      .avg("age")
+      .map(row => AvgAgeByRole(row.getString(0), row.getDouble(1)))
+
+  private def writeAvgAgeByRoleDatasource(avgAgeByRole: Dataset[AvgAgeByRole]): Unit =
+    avgAgeByRole
+      .write
+      .mode(SaveMode.Append)
+      .format("jdbc")
+      .option("driver", "org.h2.Driver")
+      .option("url", "jdbc:h2:mem:test")
+      .option("user", "sa")
+      .option("password", "sa")
+      .option("dbtable", "avg_age_by_role")
+      .save
+
+  private def readAvgAgeByRoleDatasource: Dataset[AvgAgeByRole] =
+    sparkSession
+      .read
+      .format("jdbc")
+      .option("driver", "org.h2.Driver")
+      .option("url", "jdbc:h2:mem:test")
+      .option("user", "sa")
+      .option("password", "sa")
+      .option("dbtable", "avg_age_by_role")
+      .load
+      .as[AvgAgeByRole]
+      .cache
