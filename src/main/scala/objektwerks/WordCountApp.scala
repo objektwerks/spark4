@@ -5,7 +5,9 @@ import SparkInstance.*
 @main def runWordCountApp: Unit =
   import scala3encoders.given
 
-  val lines = sparkSession.read.textFile("./data/ipa.txt")
+  val lines = sparkSession
+    .read
+    .textFile("./data/ipa.txt")
   val counts = lines
     .flatMap(line => line.split("\\W+"))
     .filter(_.nonEmpty)
