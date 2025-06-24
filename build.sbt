@@ -18,3 +18,4 @@ scalacOptions ++= Seq(
   "-Wunused:all"
 )
 fork := true
+parallelExecution := false
