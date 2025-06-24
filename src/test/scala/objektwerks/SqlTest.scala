@@ -30,10 +30,10 @@ final class SqlTest extends FunSuite:
     assert( sparkSession.sql("select sum(age) from persons").head.getLong(0) == 90 )
 
     val agesLimitByTwoDesc = sparkSession.sql("select name, age from persons where role = 'wife' order by name desc limit 2")
-    agesLimitByTwoDesc.head.getString(0) shouldBe "wilma"
-    agesLimitByTwoDesc.head.getLong(1) shouldBe 23
-    agesLimitByTwoDesc.take(2).tail(0).getString(0) shouldBe "betty"
-    agesLimitByTwoDesc.take(2).tail(0).getLong(1) shouldBe 21
+    assert( agesLimitByTwoDesc.head.getString(0) == "wilma" )
+    assert( agesLimitByTwoDesc.head.getLong(1) == 23 )
+    assert( agesLimitByTwoDesc.take(2).tail(0).getString(0) == "betty" )
+    assert( agesLimitByTwoDesc.take(2).tail(0).getLong(1) == 21 )
 
   test("dataset sql"):
     val dataset = sparkSession.read.json("./data/person/person.json").as[Person].cache
