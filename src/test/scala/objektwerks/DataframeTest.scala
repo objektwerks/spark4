@@ -130,14 +130,19 @@ class DataframeTest extends FunSuite {
   }
 
   test("select > agg > case class") {
-    dataframe
-      .select(min(col("age")))
-      .map(row => Age(row.getLong(0)))
-      .head shouldBe Age(21)
-    dataframe
-      .select(max(col("age")))
-      .map(row => Age(row.getLong(0)))
-      .head shouldBe Age(24)
+    assert(
+      dataframe
+        .select(min(col("age")))
+        .map(row => Age(row.getLong(0)))
+        .head == Age(21)
+    )
+
+    assert(
+      dataframe
+        .select(max(col("age")))
+        .map(row => Age(row.getLong(0)))
+        .head == Age(24)
+    )
   }
 
   test("groupBy > avg") {
