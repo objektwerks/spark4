@@ -107,21 +107,25 @@ final class SqlTest extends FunSuite:
       .cache
     assert( personTask.count == 4 )
 
-  /* No TypeTag available for Double error! TODO! If works, add city_temps.json!
   test("udf"):
+    import org.apache.spark.sql.functions.udf
+    import scala.reflect.runtime.universe.*
+
     val cityTemps = sparkSession
       .read
       .json("./data/city_temps.json")
       .cache
     cityTemps.createOrReplaceTempView("city_temps")
 
+    val fn = udf( (degreesCelcius: Int ) => (degreesCelcius * 9.0 / 5.0) + 32.0 )
+
     sparkSession
       .udf
-      .register("celciusToFahrenheit", (degreesCelcius: Double) => (degreesCelcius * 9.0 / 5.0) + 32.0)
+      .register("celciusToFahrenheit", fn)
 
     val temps = sparkSession
       .sql("select city, celciusToFahrenheit(avgLow) as avgLowFahrenheit, celciusToFahrenheit(avgHigh) as avgHighFahrenheit from city_temps")
-    assert( temps.count == 6 ) */
+    assert( temps.count == 6 )
 
   test("jdbc") {
     import sparkSession.implicits.*
