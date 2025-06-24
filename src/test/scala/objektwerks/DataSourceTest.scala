@@ -1,10 +1,10 @@
 package objektwerks
 
+import java.sql.DriverManager
+
 import munit.FunSuite
 
-import org.apache.spark.sql.Dataset
-import org.h2.jdbcx.JdbcDataSource
-import org.apache.spark.sql.SaveMode
+import org.apache.spark.sql.{Dataset, SaveMode}
 
 import scala3encoders.given
 
@@ -72,10 +72,11 @@ class DataSourceTest extends FunSuite:
     assert( persons.head.age == 21 )
 
   test("jdbc"):
-    val ds = new JdbcDataSource() // DataSource
-    ds.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;AUTO_RECONNECT=TRUE;INIT=runscript from 'classpath:/ddl.sql'")
-    ds.setUser("sa")
-    ds.setPassword("sa")
+    DriverManager.getConnection(
+      "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;AUTO_RECONNECT=TRUE;INIT=runscript from 'classpath:/ddl.sql'",
+      "sa",
+      "sa"
+    )
 
     val persons = readPersonsDatasource  // Source
     val avgAgeByRole = personsToAvgAgeByRole(persons)  // Flow
