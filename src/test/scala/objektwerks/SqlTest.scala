@@ -120,17 +120,17 @@ final class SqlTest extends FunSuite:
 
     val temps = sparkSession
       .sql("select city, celciusToFahrenheit(avgLow) as avgLowFahrenheit, celciusToFahrenheit(avgHigh) as avgHighFahrenheit from city_temps")
-    temps.count shouldBe 6
+    assert( temps.count == 6 )
 
   test("jdbc") {
     val tableName = "key_values"
     writeKeyValues(tableName, List[KeyValue](KeyValue(1, 1), KeyValue(2, 2), KeyValue(3, 3)).toDS)
     val keyvalues = readKeyValues(tableName).toDF
     keyvalues.createOrReplaceTempView("key_values")
-    sparkSession.sql("select count(*) as total_rows from key_values").head.getLong(0) shouldBe 3
-    sparkSession.sql("select min(key) as min_key from key_values").head.getInt(0) shouldBe 1
-    sparkSession.sql("select max(value) as max_value from key_values").head.getInt(0) shouldBe 3
-    sparkSession.sql("select sum(value) as sum_value from key_values").head.getLong(0) shouldBe 6
+    assert( sparkSession.sql("select count(*) as total_rows from key_values").head.getLong(0) == 3 )
+    assert( sparkSession.sql("select min(key) as min_key from key_values").head.getInt(0) == 1 )
+    assert( sparkSession.sql("select max(value) as max_value from key_values").head.getInt(0) == 3 )
+    assert( sparkSession.sql("select sum(value) as sum_value from key_values").head.getLong(0) == 6 )
   }
 
   private def writeKeyValues(table: String, keyValues: Dataset[KeyValue]): Unit =
