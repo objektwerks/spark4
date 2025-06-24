@@ -15,8 +15,6 @@ class DataframeTest extends FunSuite:
   val dataframe = sparkSession.read.json("./data/person.json").persist(StorageLevel.MEMORY_ONLY)
   dataframe.write.json("./target/dataframe/person.json")
 
-  //override def afterAll(): Unit = dataframe.unpersist()
-
   test("dataframe"):
     assert( dataframe.count == 4 )
     assert( dataframe.isInstanceOf[Dataset[Row]] )
