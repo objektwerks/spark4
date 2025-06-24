@@ -109,9 +109,11 @@ class DatasetTest extends FunSuite {
   }
 
   test("sort") {
-    val sortByName = dataset.sort('name).cache
-    sortByName.count shouldBe 4
-    sortByName.head.name shouldBe "barney"
+    import sparkSession.implicits.*
+
+    val sortByName = dataset.sort($"name").cache
+    assert( sortByName.count == 4 )
+    assert( sortByName.head.name == "barney" )
   }
 
   test("select > orderBy") {
