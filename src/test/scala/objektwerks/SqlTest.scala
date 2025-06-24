@@ -60,8 +60,8 @@ final class SqlTest extends FunSuite:
     val agesLimitByTwoDesc = sparkSession
       .sql("select name, age from persons where role = 'husband' order by name desc limit 2")
       .as[(String, Long)]
-    ("fred", 24) shouldEqual agesLimitByTwoDesc.head
-    ("barney", 22) shouldEqual agesLimitByTwoDesc.take(2).tail(0)
+    assert( ("fred", 24) == agesLimitByTwoDesc.head )
+    assert( ("barney", 22) == agesLimitByTwoDesc.take(2).tail(0) )
 
   test("dataframe join"):
     val persons = sparkSession.read.json("./data/person/person.json").cache
