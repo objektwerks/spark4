@@ -51,7 +51,7 @@ class DataSourceTest extends FunSuite:
 
     dataset
       .write
-      .parquet("./target/person.parquet")
+      .parquet("./target/parquet/person.parquet")
 
     val parquet = sparkSession
       .read
