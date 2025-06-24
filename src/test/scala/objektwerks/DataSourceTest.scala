@@ -26,12 +26,12 @@ class DataSourceTest extends FunSuite:
     val dataframe = sparkSession
       .read
       .text("./data/license.txt")
-    dataframe.count shouldBe 19
+    assert( dataframe.count == 19 )
 
     val dataset = sparkSession
       .read
       .textFile("./data/license.txt")
-    dataset.count shouldBe 19
+    assert( dataset.count == 19 )
 
   test("json"):
     val dataframe = sparkSession
