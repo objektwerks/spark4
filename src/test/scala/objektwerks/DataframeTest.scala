@@ -187,8 +187,8 @@ class DataframeTest extends FunSuite:
     assert( ("wife", "wilma", 23, 1) == result.head )
 
   test("join"):
-    val persons = sparkSession.read.json("./data/person/person.json").cache
-    val tasks = sparkSession.read.json("./data/task/task.json").cache
+    val persons = sparkSession.read.json("./data/person.json").cache
+    val tasks = sparkSession.read.json("./data/task.json").cache
     assert( persons.count == 4 )
     assert( tasks.count == 4 )
 
