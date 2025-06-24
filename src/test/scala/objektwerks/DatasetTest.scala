@@ -129,8 +129,18 @@ class DatasetTest extends FunSuite {
   }
 
   test("select > agg > case class") {
-    dataset.select(min(col("age"))).map(row => Age(row.getLong(0))).head shouldBe Age(21)
-    dataset.select(max(col("age"))).map(row => Age(row.getLong(0))).head shouldBe Age(24)
+    assert(
+      dataset
+        .select(min(col("age")))
+        .map(row => Age(row.getLong(0)))
+        .head == Age(21)
+    )
+    assert(
+      dataset
+        .select(max(col("age")))
+        .map(row => Age(row.getLong(0)))
+        .head == Age(24)
+    )
   }
 
   test("groupBy > avg") {
