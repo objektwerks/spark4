@@ -37,13 +37,13 @@ class DataSourceTest extends FunSuite:
     val dataframe = sparkSession
       .read
       .json("./data/person.json")
-    dataframe.count shouldBe 4
+    assert( dataframe.count == 4 )
 
     val dataset = sparkSession
       .read
       .json("./data/person.json")
       .as[Person]
-    dataset.count shouldBe 4
+    assert( dataset.count == 4 )
 
   test("parquet"):
     val dataset = sparkSession
