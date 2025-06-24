@@ -64,10 +64,10 @@ final class SqlTest extends FunSuite:
     assert( ("barney", 22) == agesLimitByTwoDesc.take(2).tail(0) )
 
   test("dataframe join"):
-    val persons = sparkSession.read.json("./data/person/person.json").cache
-    val tasks = sparkSession.read.json("./data/task/task.json").cache
-    persons.count shouldBe 4
-    tasks.count shouldBe 4
+    val persons = sparkSession.read.json("./data/person.json").cache
+    val tasks = sparkSession.read.json("./data/task.json").cache
+    assert( persons.count == 4 )
+    assert( tasks.count == 4 )
     persons.createOrReplaceTempView("persons")
     tasks.createOrReplaceTempView("tasks")
 
