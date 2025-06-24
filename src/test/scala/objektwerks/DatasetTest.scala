@@ -144,15 +144,17 @@ class DatasetTest extends FunSuite {
   }
 
   test("groupBy > avg") {
+    import sparkSession.implicits.*
+
     val groupByRole = dataset
-      .groupBy('role)
+      .groupBy($"role")
       .avg("age")
       .as[(String, Double)]
       .cache
-    groupByRole.count shouldBe 2
+    assert( groupByRole.count == 2 )
     groupByRole.collect.foreach {
-      case ("husband", avgAge) => avgAge shouldBe 23.0
-      case ("wife", avgAge) => avgAge shouldBe 22.0
+      case ("husband", avgAge) => assert( avgAge == 23.0 )
+      case ("wife", avgAge) => assert( avgAge == 22.0 )
       case _ => fail("groupBy > avg test failed!")
     }
   }
