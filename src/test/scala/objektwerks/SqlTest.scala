@@ -72,11 +72,11 @@ final class SqlTest extends FunSuite:
     tasks.createOrReplaceTempView("tasks")
 
     val personsTasks: Dataset[Row] = sparkSession.sql("SELECT * FROM persons, tasks WHERE persons.id = tasks.pid").cache
-    personsTasks.count shouldBe 4
+    assert( personsTasks.count == 4 )
 
     personsTasks.createOrReplaceTempView("persons_tasks")
     val personTask: Dataset[Row] = sparkSession.sql("select name, task from persons_tasks").cache
-    personTask.count shouldBe 4
+    assert( personTask.count == 4 )
 
   test("dataset join"):
     val persons = sparkSession.read.json("./data/person/person.json").as[Person].cache
