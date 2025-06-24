@@ -12,8 +12,13 @@ import scala3encoders.given
 import SparkInstance.*
 
 class DataframeTest extends FunSuite:
-  val dataframe = sparkSession.read.json("./data/person.json").persist(StorageLevel.MEMORY_ONLY)
-  dataframe.write.json("./target/dataframe/person.json")
+  val dataframe = sparkSession
+    .read
+    .json("./data/person.json")
+    .persist(StorageLevel.MEMORY_ONLY)
+  dataframe
+    .write
+    .json("./target/dataframe/person.json")
 
   test("dataframe"):
     assert( dataframe.count == 4 )
