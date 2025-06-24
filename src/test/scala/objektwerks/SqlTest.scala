@@ -5,6 +5,7 @@ import org.apache.spark.sql.Row
 import munit.FunSuite
 
 import org.apache.spark.sql.{Dataset, SaveMode}
+import org.apache.spark.sql.functions.*
 
 import scala3encoders.given
 
@@ -108,20 +109,13 @@ final class SqlTest extends FunSuite:
     assert( personTask.count == 4 )
 
   test("udf"):
-    import org.apache.spark.sql.functions.udf
-    import scala.reflect.runtime.universe.*
-
     val cityTemps = sparkSession
       .read
       .json("./data/city_temps.json")
       .cache
     cityTemps.createOrReplaceTempView("city_temps")
 
-    val fn = udf( (degreesCelcius: Int ) => (degreesCelcius * 9.0 / 5.0) + 32.0 )
-
-    sparkSession
-      .udf
-      .register("celciusToFahrenheit", fn)
+    udf( (degreesCelcius: Int ) => (degreesCelcius * 9.0 / 5.0) + 32.0 ).register("celciusToFahrenheit")
 
     val temps = sparkSession
       .sql("select city, celciusToFahrenheit(avgLow) as avgLowFahrenheit, celciusToFahrenheit(avgHigh) as avgHighFahrenheit from city_temps")

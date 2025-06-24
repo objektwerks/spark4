@@ -8,6 +8,7 @@ libraryDependencies ++= {
   Seq(
     "io.github.vincenzobaz" %% "spark4-scala3-encoders" % spark4Scala3Version,
     "io.github.vincenzobaz" %% "spark4-scala3-udf" % spark4Scala3Version,
+    "io.github.vincenzobaz" %% "spark4-scala3-udf"  % spark4Scala3Version,
     ("org.apache.spark" %% "spark-core" % sparkVersion).cross(CrossVersion.for3Use2_13),
     ("org.apache.spark" %% "spark-sql" % sparkVersion).cross(CrossVersion.for3Use2_13),
     ("org.apache.spark" %% "spark-streaming" % sparkVersion).cross(CrossVersion.for3Use2_13),
