@@ -11,31 +11,28 @@ import scala3encoders.given
 
 import SparkInstance.*
 
-class DataframeTest extends FunSuite {
+class DataframeTest extends FunSuite:
   val dataframe = sparkSession.read.json("./data/person.json").persist(StorageLevel.MEMORY_ONLY)
   dataframe.write.json("./target/dataframe/person.json")
 
   //override def afterAll(): Unit = dataframe.unpersist()
 
-  test("dataframe") {
+  test("dataframe"):
     assert( dataframe.count == 4 )
     assert( dataframe.isInstanceOf[Dataset[Row]] )
     assert( dataframe.as[Person].isInstanceOf[Dataset[Person]] )
-  }
 
-  test("column") {
+  test("column"):
     val idColumn = dataframe.col("id")
     val nameColumn = col("name")
     val ageColumn = column("age")
     val roleColumn = expr("role")
     assert( dataframe.select(idColumn, nameColumn, ageColumn, roleColumn).count == 4 )
-  }
 
-  test("selectExpr") {
+  test("selectExpr"):
     assert( dataframe.selectExpr("id", "name", "age", "role").count == 4 )
-  }
 
-  test("add column") {
+  test("add column"):
     import sparkSession.implicits.*
 
     assert(
@@ -43,9 +40,8 @@ class DataframeTest extends FunSuite {
       .withColumn("dog_age", $"age" * 7)
       .head.getLong(4) == 168
     )
-  }
 
-  test("update") {
+  test("update"):
     import sparkSession.implicits.*
 
     val incrementAgeNameToUpper = dataframe
@@ -55,9 +51,8 @@ class DataframeTest extends FunSuite {
     assert( incrementAgeNameToUpper.count == 4 )
     assert( incrementAgeNameToUpper.head.getLong(0) == 25 )
     assert( incrementAgeNameToUpper.head.getString(2) == "FRED" )
-  }
 
-  test("transform") {
+  test("transform"):
     import sparkSession.implicits.*
 
     def incrementAge(df: DataFrame): DataFrame = df.withColumn("age", $"age" + 1)
@@ -69,17 +64,15 @@ class DataframeTest extends FunSuite {
     assert( incrementAgeNameToUpper.count == 4 )
     assert( incrementAgeNameToUpper.head.getLong(0) == 25 )
     assert( incrementAgeNameToUpper.head.getString(2) == "FRED" )
-  }
 
-  test("filter") {
+  test("filter"):
     val filterByName = dataframe.filter("name == 'barney'").cache
     assert( filterByName.count == 1 )
     assert( filterByName.head.getAs[Long]("age") == 22 )
     assert( filterByName.head.getAs[String]("name") == "barney" )
     assert( filterByName.head.getAs[String]("role") == "husband" )
-  }
 
-  test("select > where") {
+  test("select > where"):
     val selectByName = dataframe
       .select("name")
       .where("name == 'barney'")
@@ -93,18 +86,16 @@ class DataframeTest extends FunSuite {
       .cache
     assert( selectByAge.count == 1 )
     assert( selectByAge.head.getLong(0) == 24 )
-  }
 
-  test("select > orderBy") {
+  test("select > orderBy"):
     val orderByName = dataframe
       .select("name")
       .orderBy("name")
       .cache
     assert( orderByName.count == 4 )
     assert( orderByName.head.getString(0) == "barney" )
-  }
 
-  test("sort") {
+  test("sort"):
     val sortByName = dataframe
       .select(col("id"), col("age"), col("name"), col("role"))
       .sort("name")
@@ -113,23 +104,20 @@ class DataframeTest extends FunSuite {
     assert( sortByName.head.getLong(1) == 22 )
     assert( sortByName.head.getString(2) == "barney" )
     assert( sortByName.head.getString(3) == "husband" )
-  }
 
-  test("agg") {
+  test("agg"):
     assert( dataframe.agg("age" -> "min").head.getLong(0) == 21 )
     assert( dataframe.agg("age" -> "avg").head.getDouble(0) == 22.5 )
     assert( dataframe.agg("age" -> "max").head.getLong(0) == 24 )
     assert( dataframe.agg("age" -> "sum").head.getLong(0) == 90 )
-  }
 
-  test("select > agg") {
+  test("select > agg"):
     assert( dataframe.select(min(col("age"))).head.getLong(0) == 21 )
     assert( dataframe.select(max(col("age"))).head.getLong(0) == 24 )
     assert( dataframe.select(avg(col("age"))).head.getDouble(0) == 22.5 )
     assert( dataframe.select(sum(col("age"))).head.getLong(0) == 90 )
-  }
 
-  test("select > agg > case class") {
+  test("select > agg > case class"):
     assert(
       dataframe
         .select(min(col("age")))
@@ -143,9 +131,8 @@ class DataframeTest extends FunSuite {
         .map(row => Age(row.getLong(0)))
         .head == Age(24)
     )
-  }
 
-  test("groupBy > avg") {
+  test("groupBy > avg"):
     val groupByRole = dataframe
       .groupBy("role")
       .avg("age")
@@ -155,9 +142,8 @@ class DataframeTest extends FunSuite {
       case Row("husband", avgAge) => assert( avgAge == 23.0 )
       case Row("wife", avgAge) => assert( avgAge == 22.0 )
     }
-  }
 
-  test("groupBy > agg(min, avg, max)") {
+  test("groupBy > agg(min, avg, max)"):
     val groupByRole = dataframe
       .groupBy("role")
       .agg(
@@ -177,9 +163,8 @@ class DataframeTest extends FunSuite {
         assert( avgAge == 22.0 )
         assert( maxAge == 23 )
     }
-  }
 
-  test("when > otherwise") {
+  test("when > otherwise"):
     import sparkSession.implicits.*
 
     val personsWithGender = dataframe
@@ -189,9 +174,8 @@ class DataframeTest extends FunSuite {
       case Row(_, _, _, "husband", gender ) => assert( gender == "male" )
       case Row(_, _, _, "wife", gender) => assert( gender == "female" )
     }
-  }
 
-  test("window") {
+  test("window"):
     import sparkSession.implicits.*
 
     val window = Window.partitionBy("role").orderBy($"age".desc)
@@ -201,9 +185,8 @@ class DataframeTest extends FunSuite {
       .as[(String, String, Long, Int)]
       .cache
     assert( ("wife", "wilma", 23, 1) == result.head )
-  }
 
-  test("join") {
+  test("join"):
     val persons = sparkSession.read.json("./data/person/person.json").cache
     val tasks = sparkSession.read.json("./data/task/task.json").cache
     assert( persons.count == 4 )
@@ -212,5 +195,3 @@ class DataframeTest extends FunSuite {
     val joinCondition = persons.col("id") === tasks.col("pid")
     val personsTasks = persons.join(tasks, joinCondition)
     assert( personsTasks.count == 4 )
-  }
-}
