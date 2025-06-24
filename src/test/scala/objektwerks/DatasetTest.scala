@@ -195,13 +195,15 @@ class DatasetTest extends FunSuite {
   }
 
   test("window") {
-    val window = Window.partitionBy('role).orderBy($"age".desc)
+    import sparkSession.implicits.*
+
+    val window = Window.partitionBy($"role").orderBy($"age".desc)
     val ranking = rank.over(window).as("rank")
     val result = dataset
       .select(col("role"), col("name"), col("age"), ranking)
       .as[(String, String, Long, Int)]
       .cache
-    ("wife", "wilma", 23, 1) shouldEqual result.head
+    assert( ("wife", "wilma", 23, 1) == result.head )
   }
 
   test("join") {
