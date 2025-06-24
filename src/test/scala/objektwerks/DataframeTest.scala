@@ -166,16 +166,16 @@ class DataframeTest extends FunSuite {
         max("age")
       )
       .cache
-    groupByRole.count shouldBe 2
+    assert( groupByRole.count == 2 )
     groupByRole.collect.foreach {
       case Row("husband", minAge, avgAge, maxAge) =>
-        minAge shouldBe 22
-        avgAge shouldBe 23.0
-        maxAge shouldBe 24
+        assert( minAge == 22 )
+        assert( avgAge == 23.0 )
+        assert( maxAge == 24 )
       case Row("wife", minAge, avgAge, maxAge) => 
-        minAge shouldBe 21
-        avgAge shouldBe 22.0
-        maxAge shouldBe 23
+        assert( minAge == 21 )
+        assert( avgAge == 22.0 )
+        assert( maxAge == 23 )
     }
   }
 
