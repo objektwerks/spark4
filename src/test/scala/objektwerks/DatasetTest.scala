@@ -85,8 +85,8 @@ class DatasetTest extends FunSuite {
 
   test("map") {
     val mapNameToUpperCase = dataset.map(_.name.toUpperCase).cache
-    mapNameToUpperCase.count shouldBe 4
-    mapNameToUpperCase.head shouldBe "FRED"
+    assert( mapNameToUpperCase.count == 4 )
+    assert( mapNameToUpperCase.head == "FRED" )
   }
 
   test("filter") {
