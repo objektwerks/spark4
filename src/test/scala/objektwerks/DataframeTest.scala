@@ -150,10 +150,10 @@ class DataframeTest extends FunSuite {
       .groupBy("role")
       .avg("age")
       .cache
-    groupByRole.count shouldBe 2
+    assert( groupByRole.count == 2 )
     groupByRole.collect.foreach {
-      case Row("husband", avgAge) => avgAge shouldBe 23.0
-      case Row("wife", avgAge) => avgAge shouldBe 22.0
+      case Row("husband", avgAge) => assert( avgAge == 23.0 )
+      case Row("wife", avgAge) => assert( avgAge == 22.0 )
     }
   }
 
