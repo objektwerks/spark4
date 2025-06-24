@@ -111,9 +111,9 @@ final class SqlTest extends FunSuite:
   test("udf"):
     val cityTemps = sparkSession
       .read
-      .json("./data/city_temps.json")
+      .json("./data/city.temps.json")
       .cache
-    cityTemps.createOrReplaceTempView("city_temps")
+    cityTemps.createOrReplaceTempView("city.temps")
 
     udf( (degreesCelcius: Int ) => (degreesCelcius * 9.0 / 5.0) + 32.0 ).register("celciusToFahrenheit")
 
