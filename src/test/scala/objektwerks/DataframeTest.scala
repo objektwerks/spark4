@@ -84,15 +84,15 @@ class DataframeTest extends FunSuite {
       .select("name")
       .where("name == 'barney'")
       .cache
-    selectByName.count shouldBe 1
-    selectByName.head.getString(0) shouldBe "barney"
+    assert( selectByName.count == 1 )
+    assert( selectByName.head.getString(0) == "barney" )
 
     val selectByAge = dataframe
       .select("age")
       .where("age > 23")
       .cache
-    selectByAge.count shouldBe 1
-    selectByAge.head.getLong(0) shouldBe 24
+    assert( selectByAge.count == 1 )
+    assert( selectByAge.head.getLong(0) == 24 )
   }
 
   test("select > orderBy") {
