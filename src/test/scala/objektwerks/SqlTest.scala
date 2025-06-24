@@ -36,14 +36,21 @@ final class SqlTest extends FunSuite:
     assert( agesLimitByTwoDesc.take(2).tail(0).getLong(1) == 21 )
 
   test("dataset sql"):
-    val dataset = sparkSession.read.json("./data/person/person.json").as[Person].cache
-    dataset.count shouldBe 4
+    val dataset = sparkSession
+      .read
+      .json("./data/person/person.json")
+      .as[Person]
+      .cache
+    assert( dataset.count == 4 )
     dataset.createOrReplaceTempView("persons")
 
-    val persons = sparkSession.sql("select * from persons where age >= 21 and age <= 22 order by age").as[Person].cache
-    persons.count shouldBe 2
-    persons.head.age shouldBe 21
-    persons.head.name shouldBe "betty"
+    val persons = sparkSession
+      .sql("select * from persons where age >= 21 and age <= 22 order by age")
+      .as[Person]
+      .cache
+    assert( persons.count == 2 )
+    assert( persons.head.age == 21 )
+    assert( persons.head.name == "betty" )
 
     sparkSession.sql("select min(age) from persons").as[Long].head shouldBe 21
     sparkSession.sql("select avg(age) from persons").as[Double].head shouldBe 22.5
