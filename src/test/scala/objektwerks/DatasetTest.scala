@@ -91,12 +91,12 @@ class DatasetTest extends FunSuite {
 
   test("filter") {
     val filterByName = dataset.filter(_.name == "barney").cache
-    filterByName.count shouldBe 1
-    filterByName.head.name shouldBe "barney"
+    assert( filterByName.count == 1 )
+    assert( filterByName.head.name == "barney" )
 
     val filterByAge = dataset.filter(_.age > 23).cache
-    filterByAge.count shouldBe 1
-    filterByAge.head.age shouldBe 24
+    assert( filterByAge.count == 1 )
+    assert( filterByAge.head.age == 24 )
   }
 
   test("filter > map") {
