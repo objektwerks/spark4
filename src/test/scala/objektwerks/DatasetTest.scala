@@ -27,10 +27,12 @@ class DatasetTest extends FunSuite {
     val nameColumn = col("name")
     val ageColumn = column("age")
     val roleColumn = expr("role")
-    dataset
-      .select(idColumn, nameColumn, ageColumn, roleColumn)
-      .as[Person]
-      .count shouldBe 4
+    assert(
+      dataset
+        .select(idColumn, nameColumn, ageColumn, roleColumn)
+        .as[Person]
+        .count == 4
+    )
   }
 
   test("selectExpr") {
