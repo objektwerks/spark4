@@ -79,19 +79,33 @@ final class SqlTest extends FunSuite:
     assert( personTask.count == 4 )
 
   test("dataset join"):
-    val persons = sparkSession.read.json("./data/person/person.json").as[Person].cache
-    val tasks = sparkSession.read.json("./data/task/task.json").as[Task].cache
-    persons.count shouldBe 4
-    tasks.count shouldBe 4
+    val persons = sparkSession
+      .read
+      .json("./data/person/person.json")
+      .as[Person]
+      .cache
+    val tasks = sparkSession
+      .read
+      .json("./data/task/task.json")
+      .as[Task]
+      .cache
+    assert( persons.count == 4 )
+    assert( tasks.count == 4 )
     persons.createOrReplaceTempView("persons")
     tasks.createOrReplaceTempView("tasks")
 
-    val personsTasks: Dataset[PersonsTasks] = sparkSession.sql("select * from persons, tasks where persons.id = tasks.pid").as[PersonsTasks].cache
-    personsTasks.count shouldBe 4
+    val personsTasks: Dataset[PersonsTasks] = sparkSession
+      .sql("select * from persons, tasks where persons.id = tasks.pid")
+      .as[PersonsTasks]
+      .cache
+    assert( personsTasks.count == 4 )
 
     personsTasks.createOrReplaceTempView("persons_tasks")
-    val personTask: Dataset[(String, String)] = sparkSession.sql("select name, task from persons_tasks").as[(String, String)].cache
-    personTask.count shouldBe 4
+    val personTask = sparkSession
+      .sql("select name, task from persons_tasks")
+      .as[(String, String)]
+      .cache
+    assert( personTask.count == 4 )
 
   test("udf"):
     val cityTemps = sparkSession
