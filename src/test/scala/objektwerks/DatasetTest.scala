@@ -17,9 +17,9 @@ class DatasetTest extends FunSuite {
   dataset.write.json("./target/dataset/person.json")
 
   test("dataset") {
-    dataset.count shouldBe 4
-    assert(dataset.toDF.isInstanceOf[Dataset[Row]])
-    assert(dataset.rdd.isInstanceOf[RDD[Person]])
+    assert( dataset.count == 4 )
+    assert( dataset.toDF.isInstanceOf[Dataset[Row]] )
+    assert( dataset.rdd.isInstanceOf[RDD[Person]] )
   }
 
   test("column") {
