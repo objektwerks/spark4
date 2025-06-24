@@ -58,23 +58,25 @@ class DataframeTest extends FunSuite {
   }
 
   test("transform") {
+    import sparkSession.implicits.*
+
     def incrementAge(df: DataFrame): DataFrame = df.withColumn("age", $"age" + 1)
     def nameToUpper(df: DataFrame): DataFrame = df.withColumn("name", upper($"name"))
     val incrementAgeNameToUpper = dataframe
       .transform(incrementAge)
       .transform(nameToUpper)
       .cache
-    incrementAgeNameToUpper.count shouldBe 4
-    incrementAgeNameToUpper.head.getLong(0) shouldBe 25
-    incrementAgeNameToUpper.head.getString(2) shouldBe "FRED"
+    assert( incrementAgeNameToUpper.count == 4 )
+    assert( incrementAgeNameToUpper.head.getLong(0) == 25 )
+    assert( incrementAgeNameToUpper.head.getString(2) == "FRED" )
   }
 
   test("filter") {
     val filterByName = dataframe.filter("name == 'barney'").cache
-    filterByName.count shouldBe 1
-    filterByName.head.getAs[Long]("age") shouldBe 22
-    filterByName.head.getAs[String]("name") shouldBe "barney"
-    filterByName.head.getAs[String]("role") shouldBe "husband"
+    assert( filterByName.count == 1 )
+    assert( filterByName.head.getAs[Long]("age") == 22 )
+    assert( filterByName.head.getAs[String]("name") == "barney" )
+    assert( filterByName.head.getAs[String]("role") == "husband" )
   }
 
   test("select > where") {
