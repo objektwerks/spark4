@@ -13,8 +13,14 @@ import scala3encoders.given
 import SparkInstance.*
 
 class DatasetTest extends FunSuite:
-  val dataset = sparkSession.read.json("./data/person.json").as[Person].persist(StorageLevel.MEMORY_ONLY)
-  dataset.write.json("./target/dataset/person.json")
+  val dataset = sparkSession
+    .read
+    .json("./data/person.json")
+    .as[Person]
+    .persist(StorageLevel.MEMORY_ONLY)
+  dataset
+    .write
+    .json("./target/dataset/person.json")
 
   test("dataset"):
     assert( dataset.count == 4 )
