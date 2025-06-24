@@ -65,6 +65,6 @@ class DataSourceTest extends FunSuite:
       .sql("select * from persons where age >= 21 and age <= 22 order by age")
       .as[Person]
       .cache
-    persons.count shouldBe 2
-    persons.head.name shouldBe "betty"
-    persons.head.age shouldBe 21
+    assert( persons.count == 2 )
+    assert( persons.head.name == "betty" )
+    assert( persons.head.age == 21 )
