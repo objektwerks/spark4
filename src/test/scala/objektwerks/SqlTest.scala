@@ -14,13 +14,15 @@ final class SqlTest extends FunSuite:
   test("dataframe sql"):
     val dataframe = sparkSession.read.json("./data/person.json").cache
     assert( dataframe.isInstanceOf[Dataset[Row]] )
-    dataframe.count shouldBe 4
+    assert( dataframe.count == 4 )
     dataframe.createOrReplaceTempView("persons")
 
-    val persons = sparkSession.sql("select * from persons where age >= 21 and age <= 22 order by age").cache
-    persons.count shouldBe 2
-    persons.head.getLong(0) shouldBe 21
-    persons.head.getString(2) shouldBe "betty"
+    val persons = sparkSession
+      .sql("select * from persons where age >= 21 and age <= 22 order by age")
+      .cache
+    assert( persons.count == 2 )
+    assert( persons.head.getLong(0) == 21 )
+    assert( persons.head.getString(2) == "betty" )
 
     sparkSession.sql("select min(age) from persons").head.getLong(0) shouldBe 21
     sparkSession.sql("select avg(age) from persons").head.getDouble(0) shouldBe 22.5
