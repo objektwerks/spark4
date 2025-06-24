@@ -2,8 +2,6 @@ package objektwerks
 
 import munit.FunSuite
 
-import org.apache.spark.sql.{Dataset, SaveMode}
-
 import scala3encoders.given
 
 import SparkInstance.*
