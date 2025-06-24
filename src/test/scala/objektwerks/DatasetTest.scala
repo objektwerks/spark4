@@ -117,13 +117,15 @@ class DatasetTest extends FunSuite {
   }
 
   test("select > orderBy") {
+    import sparkSession.implicits.*
+
     val orderByName = dataset
-      .select('name)
-      .orderBy('name)
+      .select($"name")
+      .orderBy($"name")
       .as[String]
       .cache
-    orderByName.count shouldBe 4
-    orderByName.head shouldBe "barney"
+    assert( orderByName.count == 4 )
+    assert( orderByName.head == "barney" )
   }
 
   test("select > agg > case class") {
