@@ -24,10 +24,10 @@ final class SqlTest extends FunSuite:
     assert( persons.head.getLong(0) == 21 )
     assert( persons.head.getString(2) == "betty" )
 
-    sparkSession.sql("select min(age) from persons").head.getLong(0) shouldBe 21
-    sparkSession.sql("select avg(age) from persons").head.getDouble(0) shouldBe 22.5
-    sparkSession.sql("select max(age) from persons").head.getLong(0) shouldBe 24
-    sparkSession.sql("select sum(age) from persons").head.getLong(0) shouldBe 90
+    assert( sparkSession.sql("select min(age) from persons").head.getLong(0) == 21 )
+    assert( sparkSession.sql("select avg(age) from persons").head.getDouble(0) == 22.5 )
+    assert( sparkSession.sql("select max(age) from persons").head.getLong(0) == 24 )
+    assert( sparkSession.sql("select sum(age) from persons").head.getLong(0) == 90 )
 
     val agesLimitByTwoDesc = sparkSession.sql("select name, age from persons where role = 'wife' order by name desc limit 2")
     agesLimitByTwoDesc.head.getString(0) shouldBe "wilma"
