@@ -12,17 +12,16 @@ import scala3encoders.given
 
 import SparkInstance.*
 
-class DatasetTest extends FunSuite {
+class DatasetTest extends FunSuite:
   val dataset = sparkSession.read.json("./data/person.json").as[Person].persist(StorageLevel.MEMORY_ONLY)
   dataset.write.json("./target/dataset/person.json")
 
-  test("dataset") {
+  test("dataset"):
     assert( dataset.count == 4 )
     assert( dataset.toDF.isInstanceOf[Dataset[Row]] )
     assert( dataset.rdd.isInstanceOf[RDD[Person]] )
-  }
 
-  test("column") {
+  test("column"):
     val idColumn = dataset.col("id")
     val nameColumn = col("name")
     val ageColumn = column("age")
@@ -33,18 +32,16 @@ class DatasetTest extends FunSuite {
         .as[Person]
         .count == 4
     )
-  }
 
-  test("selectExpr") {
+  test("selectExpr"):
     assert(
       dataset
         .selectExpr("id", "name", "age", "role")
         .as[Person]
         .count == 4
     )
-  }
 
-  test("add column") {
+  test("add column"):
     import sparkSession.implicits.*
 
     assert(
@@ -54,9 +51,8 @@ class DatasetTest extends FunSuite {
         .head
         .dogAge == 168
     )
-  }
 
-  test("update") {
+  test("update"):
     import sparkSession.implicits.*
 
     val incrementAgeNameToUpper = dataset
@@ -67,9 +63,8 @@ class DatasetTest extends FunSuite {
     assert( incrementAgeNameToUpper.count == 4 )
     assert( incrementAgeNameToUpper.head.age == 25 )
     assert( incrementAgeNameToUpper.head.name == "FRED" )
-  }
 
-  test("transform") {
+  test("transform"):
     import sparkSession.implicits.*
 
     def incrementAge(ds: Dataset[Person]): Dataset[Person] = ds.withColumn("age", $"age" + 1).as[Person]
@@ -81,15 +76,13 @@ class DatasetTest extends FunSuite {
     assert( incrementAgeNameToUpper.count == 4 )
     assert( incrementAgeNameToUpper.head.age == 25 )
     assert( incrementAgeNameToUpper.head.name == "FRED" )
-  }
 
-  test("map") {
+  test("map"):
     val mapNameToUpperCase = dataset.map(_.name.toUpperCase).cache
     assert( mapNameToUpperCase.count == 4 )
     assert( mapNameToUpperCase.head == "FRED" )
-  }
 
-  test("filter") {
+  test("filter"):
     val filterByName = dataset.filter(_.name == "barney").cache
     assert( filterByName.count == 1 )
     assert( filterByName.head.name == "barney" )
@@ -97,26 +90,23 @@ class DatasetTest extends FunSuite {
     val filterByAge = dataset.filter(_.age > 23).cache
     assert( filterByAge.count == 1 )
     assert( filterByAge.head.age == 24 )
-  }
 
-  test("filter > map") {
+  test("filter > map"):
     val betty = dataset
       .filter(_.name == "betty")
       .map(_.name.toUpperCase)
       .cache
     assert( betty.count == 1 )
     assert( betty.head == "BETTY" )
-  }
 
-  test("sort") {
+  test("sort"):
     import sparkSession.implicits.*
 
     val sortByName = dataset.sort($"name").cache
     assert( sortByName.count == 4 )
     assert( sortByName.head.name == "barney" )
-  }
 
-  test("select > orderBy") {
+  test("select > orderBy"):
     import sparkSession.implicits.*
 
     val orderByName = dataset
@@ -126,9 +116,8 @@ class DatasetTest extends FunSuite {
       .cache
     assert( orderByName.count == 4 )
     assert( orderByName.head == "barney" )
-  }
 
-  test("select > agg > case class") {
+  test("select > agg > case class"):
     assert(
       dataset
         .select(min(col("age")))
@@ -141,9 +130,8 @@ class DatasetTest extends FunSuite {
         .map(row => Age(row.getLong(0)))
         .head == Age(24)
     )
-  }
 
-  test("groupBy > avg") {
+  test("groupBy > avg"):
     import sparkSession.implicits.*
 
     val groupByRole = dataset
@@ -157,9 +145,8 @@ class DatasetTest extends FunSuite {
       case ("wife", avgAge) => assert( avgAge == 22.0 )
       case _ => fail("groupBy > avg test failed!")
     }
-  }
 
-  test("groupBy > agg(min, avg, max)") {
+  test("groupBy > agg(min, avg, max)"):
     val groupByRole = dataset
       .groupBy("role")
       .agg(
@@ -180,9 +167,8 @@ class DatasetTest extends FunSuite {
         assert( maxAge == 23 )
       case _ => fail("groupBy > agg( min, avg, max) test failed!")
     }
-  }
 
-  test("when > otherwise") {
+  test("when > otherwise"):
     import sparkSession.implicits.*
 
     val personsWithGender = dataset
@@ -194,9 +180,8 @@ class DatasetTest extends FunSuite {
       case PersonWithGender(_, _, _, "wife", gender) => assert( gender == "female" )
       case _ => fail("when > otherwise test failed!")
     }
-  }
 
-  test("window") {
+  test("window"):
     import sparkSession.implicits.*
 
     val window = Window.partitionBy($"role").orderBy($"age".desc)
@@ -206,9 +191,8 @@ class DatasetTest extends FunSuite {
       .as[(String, String, Long, Int)]
       .cache
     assert( ("wife", "wilma", 23, 1) == result.head )
-  }
 
-  test("join") {
+  test("join"):
     val persons = sparkSession.read.json("./data/person.json").as[Person].cache
     val tasks = sparkSession.read.json("./data/task.json").as[Task].cache
     assert( persons.count == 4 )
@@ -217,5 +201,3 @@ class DatasetTest extends FunSuite {
     val joinCondition = persons.col("id") === tasks.col("pid")
     val personsTasks = persons.joinWith(tasks, joinCondition)
     assert( personsTasks.count == 4 )
-  }
-}
