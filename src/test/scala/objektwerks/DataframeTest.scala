@@ -100,8 +100,8 @@ class DataframeTest extends FunSuite {
       .select("name")
       .orderBy("name")
       .cache
-    orderByName.count shouldBe 4
-    orderByName.head.getString(0) shouldBe "barney"
+    assert( orderByName.count == 4 )
+    assert( orderByName.head.getString(0) == "barney" )
   }
 
   test("sort") {
@@ -109,24 +109,24 @@ class DataframeTest extends FunSuite {
       .select(col("id"), col("age"), col("name"), col("role"))
       .sort("name")
       .cache
-    sortByName.count shouldBe 4
-    sortByName.head.getLong(1) shouldBe 22
-    sortByName.head.getString(2) shouldBe "barney"
-    sortByName.head.getString(3) shouldBe "husband"
+    assert( sortByName.count == 4 )
+    assert( sortByName.head.getLong(1) == 22 )
+    assert( sortByName.head.getString(2) == "barney" )
+    assert( sortByName.head.getString(3) == "husband" )
   }
 
   test("agg") {
-    dataframe.agg("age" -> "min").head.getLong(0) shouldBe 21
-    dataframe.agg("age" -> "avg").head.getDouble(0) shouldBe 22.5
-    dataframe.agg("age" -> "max").head.getLong(0) shouldBe 24
-    dataframe.agg("age" -> "sum").head.getLong(0) shouldBe 90
+    assert( dataframe.agg("age" -> "min").head.getLong(0) == 21 )
+    assert( dataframe.agg("age" -> "avg").head.getDouble(0) == 22.5 )
+    assert( dataframe.agg("age" -> "max").head.getLong(0) == 24 )
+    assert( dataframe.agg("age" -> "sum").head.getLong(0) == 90 )
   }
 
   test("select > agg") {
-    dataframe.select(min(col("age"))).head.getLong(0) shouldBe 21
-    dataframe.select(max(col("age"))).head.getLong(0) shouldBe 24
-    dataframe.select(avg(col("age"))).head.getDouble(0) shouldBe 22.5
-    dataframe.select(sum(col("age"))).head.getLong(0) shouldBe 90
+    assert( dataframe.select(min(col("age"))).head.getLong(0) == 21 )
+    assert( dataframe.select(max(col("age"))).head.getLong(0) == 24 )
+    assert( dataframe.select(avg(col("age"))).head.getDouble(0) == 22.5 )
+    assert( dataframe.select(sum(col("age"))).head.getLong(0) == 90 )
   }
 
   test("select > agg > case class") {
