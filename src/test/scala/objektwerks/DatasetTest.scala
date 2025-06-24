@@ -36,10 +36,12 @@ class DatasetTest extends FunSuite {
   }
 
   test("selectExpr") {
-    dataset
-      .selectExpr("id", "name", "age", "role")
-      .as[Person]
-      .count shouldBe 4
+    assert(
+      dataset
+        .selectExpr("id", "name", "age", "role")
+        .as[Person]
+        .count == 4
+    )
   }
 
   test("add column") {
