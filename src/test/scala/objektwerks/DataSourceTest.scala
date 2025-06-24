@@ -3,12 +3,12 @@ package objektwerks
 import munit.FunSuite
 
 import org.apache.spark.sql.Dataset
+import org.h2.jdbcx.JdbcDataSource
+import org.apache.spark.sql.SaveMode
 
 import scala3encoders.given
 
 import SparkInstance.*
-import org.h2.jdbcx.JdbcDataSource
-import org.apache.spark.sql.SaveMode
 
 class DataSourceTest extends FunSuite:
   test("csv"):
