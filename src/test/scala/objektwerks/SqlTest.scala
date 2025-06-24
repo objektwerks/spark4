@@ -107,7 +107,7 @@ final class SqlTest extends FunSuite:
       .cache
     assert( personTask.count == 4 )
 
-  /* Nothing works! :)
+  /* Import fails. Issue reported.
 
   test("udf"):
     import scala3udf.{Udf => udf}
