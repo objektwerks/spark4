@@ -104,8 +104,8 @@ class DatasetTest extends FunSuite {
       .filter(_.name == "betty")
       .map(_.name.toUpperCase)
       .cache
-    betty.count shouldBe 1
-    betty.head shouldBe "BETTY"
+    assert( betty.count == 1 )
+    assert( betty.head == "BETTY" )
   }
 
   test("sort") {
