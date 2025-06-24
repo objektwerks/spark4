@@ -70,15 +70,17 @@ class DatasetTest extends FunSuite {
   }
 
   test("transform") {
+    import sparkSession.implicits.*
+
     def incrementAge(ds: Dataset[Person]): Dataset[Person] = ds.withColumn("age", $"age" + 1).as[Person]
     def nameToUpper(ds: Dataset[Person]): Dataset[Person] = ds.withColumn("name", upper($"name")).as[Person]
     val incrementAgeNameToUpper = dataset
       .transform(incrementAge)
       .transform(nameToUpper)
       .cache
-    incrementAgeNameToUpper.count shouldBe 4
-    incrementAgeNameToUpper.head.age shouldBe 25
-    incrementAgeNameToUpper.head.name shouldBe "FRED"
+    assert( incrementAgeNameToUpper.count == 4 )
+    assert( incrementAgeNameToUpper.head.age == 25 )
+    assert( incrementAgeNameToUpper.head.name == "FRED" )
   }
 
   test("map") {
