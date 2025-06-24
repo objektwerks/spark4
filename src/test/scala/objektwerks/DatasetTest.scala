@@ -183,13 +183,15 @@ class DatasetTest extends FunSuite {
   }
 
   test("when > otherwise") {
+    import sparkSession.implicits.*
+
     val personsWithGender = dataset
       .withColumn("gender", when($"role" === "husband", "male")
       .otherwise("female"))
       .as[PersonWithGender]
     personsWithGender.collect.foreach {
-      case PersonWithGender(_, _, _, "husband", gender) => gender shouldBe "male"
-      case PersonWithGender(_, _, _, "wife", gender) => gender shouldBe "female"
+      case PersonWithGender(_, _, _, "husband", gender) => assert( gender == "male" )
+      case PersonWithGender(_, _, _, "wife", gender) => assert( gender == "female" )
       case _ => fail("when > otherwise test failed!")
     }
   }
@@ -209,11 +211,11 @@ class DatasetTest extends FunSuite {
   test("join") {
     val persons = sparkSession.read.json("./data/person.json").as[Person].cache
     val tasks = sparkSession.read.json("./data/task.json").as[Task].cache
-    persons.count shouldBe 4
-    tasks.count shouldBe 4
+    assert( persons.count == 4 )
+    assert( tasks.count == 4 )
 
     val joinCondition = persons.col("id") === tasks.col("pid")
     val personsTasks = persons.joinWith(tasks, joinCondition)
-    personsTasks.count shouldBe 4
+    assert( personsTasks.count == 4 )
   }
 }
