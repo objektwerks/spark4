@@ -180,23 +180,27 @@ class DataframeTest extends FunSuite {
   }
 
   test("when > otherwise") {
+    import sparkSession.implicits.*
+
     val personsWithGender = dataframe
       .withColumn("gender", when($"role" === "husband", "male")
       .otherwise("female"))
     personsWithGender.collect.foreach {
-      case Row(_, _, _, "husband", gender ) => gender shouldBe "male"
-      case Row(_, _, _, "wife", gender) => gender shouldBe "female"
+      case Row(_, _, _, "husband", gender ) => assert( gender == "male" )
+      case Row(_, _, _, "wife", gender) => assert( gender == "female" )
     }
   }
 
   test("window") {
+    import sparkSession.implicits.*
+
     val window = Window.partitionBy("role").orderBy($"age".desc)
     val ranking = rank.over(window).as("rank")
     val result = dataframe
       .select(col("role"), col("name"), col("age"), ranking)
       .as[(String, String, Long, Int)]
       .cache
-    ("wife", "wilma", 23, 1) shouldEqual result.head
+    assert( ("wife", "wilma", 23, 1) == result.head )
   }
 
   test("join") {
