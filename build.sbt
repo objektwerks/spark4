@@ -4,7 +4,7 @@ version := "2.0.0"
 scalaVersion := "3.7.1"
 libraryDependencies ++= {
   val sparkVersion = "4.0.0"
-  val spark4Scala3Version = "0.3.1"
+  val spark4Scala3Version = "0.3.2"
   Seq(
     "io.github.vincenzobaz" %% "spark4-scala3-encoders" % spark4Scala3Version,
     "io.github.vincenzobaz" %% "spark4-scala3-udf" % spark4Scala3Version,
