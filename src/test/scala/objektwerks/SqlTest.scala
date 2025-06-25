@@ -118,7 +118,7 @@ final class SqlTest extends FunSuite:
       .cache
     cityTemps.createOrReplaceTempView("city.temps")
 
-    udf( (degreesCelcius: Int ) => (degreesCelcius * 9.0 / 5.0) + 32.0 ).registerWith("celciusToFahrenheit")
+    udf( (degreesCelcius: Int ) => (degreesCelcius * 9.0 / 5.0) + 32.0 ).register("celciusToFahrenheit")
 
     val temps = sparkSession
       .sql("select city, celciusToFahrenheit(avgLow) as avgLowFahrenheit, celciusToFahrenheit(avgHigh) as avgHighFahrenheit from city_temps")
