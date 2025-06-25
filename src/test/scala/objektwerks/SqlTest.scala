@@ -9,6 +9,7 @@ import org.apache.spark.sql.{Dataset, SaveMode}
 import scala3encoders.given
 
 import SparkInstance.*
+import org.apache.spark.sql.SparkSession
 
 final class SqlTest extends FunSuite:
   test("dataframe sql"):
@@ -107,24 +108,21 @@ final class SqlTest extends FunSuite:
       .cache
     assert( personTask.count == 4 )
 
-  /* Import fails. Issue reported.
-
   test("udf"):
     import scala3udf.{Udf => udf}
+    given SparkSession = sparkSession
 
     val cityTemps = sparkSession
       .read
-      .json("./data/city.temps.json")
+      .json("./data/city_temps.json")
       .cache
-    cityTemps.createOrReplaceTempView("city.temps")
+    cityTemps.createOrReplaceTempView("city_temps")
 
     udf( (degreesCelcius: Int ) => (degreesCelcius * 9.0 / 5.0) + 32.0 ).register("celciusToFahrenheit")
 
     val temps = sparkSession
       .sql("select city, celciusToFahrenheit(avgLow) as avgLowFahrenheit, celciusToFahrenheit(avgHigh) as avgHighFahrenheit from city_temps")
     assert( temps.count == 6 )
-
-  */
 
   test("jdbc") {
     import sparkSession.implicits.*
