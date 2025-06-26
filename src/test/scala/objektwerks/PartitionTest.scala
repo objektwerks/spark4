@@ -14,16 +14,14 @@ class PartitionTest extends FunSuite:
 
   val dataframe = (1 to 10).toDF("number").persist(StorageLevel.MEMORY_AND_DISK)
 
-  test("partition") { // wide dependency-transformation, full ( evenly distributed ) shuffle
+  test("partition"): // wide dependency-transformation, full ( evenly distributed ) shuffle
     assert( dataframe.rdd.partitions.length == 8 )
     dataframe.write.csv(s"./target/partitioned-numbers-${UUID.randomUUID.toString}")
-  }
 
-  test("coalesce") { // narrow dependency-transformation, not a full shuffle, designed to reduce partitions
+  test("coalesce"): // narrow dependency-transformation, not a full shuffle, designed to reduce partitions
     val coalesced = dataframe.coalesce(2)
     assert( coalesced.rdd.partitions.length == 2 )
     coalesced.write.csv(s"./target/coalesced-numbers-${UUID.randomUUID.toString}")
-  }
 
   test("repartition"):
     assert( dataframe.repartition(4).rdd.partitions.length == 4 )
