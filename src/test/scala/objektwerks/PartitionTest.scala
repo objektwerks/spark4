@@ -25,12 +25,11 @@ class PartitionTest extends FunSuite:
     coalesced.write.csv(s"./target/coalesced-numbers-${UUID.randomUUID.toString}")
   }
 
-  test("repartition") {
+  test("repartition"):
     assert( dataframe.repartition(4).rdd.partitions.length == 4 )
     assert( dataframe.repartition(2).rdd.partitions.length == 2 )
-  }
 
-  test("partitionBy") {
+  test("partitionBy"):
     val persons = sparkSession
       .read
       .json("./data/person/person.json")
@@ -41,4 +40,3 @@ class PartitionTest extends FunSuite:
       .write
       .partitionBy("role")
       .parquet(file)
-  }
