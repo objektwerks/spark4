@@ -6,8 +6,8 @@ import scala3encoders.given
 
 import SparkInstance.*
 
-class WordCountTest extends FunSuite {
-  test("dataset") {
+class WordCountTest extends FunSuite:
+  test("dataset"):
     val lines = sparkSession.read.textFile("./data/ipa.txt")
     val counts = lines
       .flatMap(line => line.split("\\W+"))
@@ -17,7 +17,6 @@ class WordCountTest extends FunSuite {
       .collect
       .map { case (line, count) => Count(line, count) }
     assert( counts.length == 138 )
-  }
 
   test("dataframe") {
     val lines = sparkSession.read.textFile("./data/ipa.txt").toDF("line")
@@ -47,4 +46,3 @@ class WordCountTest extends FunSuite {
     val words = sparkSession.sql("select * from words")
     assert( words.count == 138 )
   }
-}
