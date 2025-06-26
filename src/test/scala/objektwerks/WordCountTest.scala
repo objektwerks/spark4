@@ -28,7 +28,7 @@ class WordCountTest extends FunSuite:
       .count
       .collect
     assert( counts.length == 122 )
-    assert( counts.map(_.count).sum == 196 )
+    assert( counts.map(_._2).sum == 196 )
 
   test("structured streaming"):
     sparkSession
