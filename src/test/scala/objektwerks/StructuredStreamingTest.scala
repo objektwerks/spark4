@@ -4,7 +4,7 @@ import munit.FunSuite
 
 import scala3encoders.given
 
-import Person.*
+import Person.{personForeachWriter, personStructType}
 import SparkInstance.*
 //import sparkSession.implicits.*
 
@@ -13,7 +13,7 @@ class StructuredStreamingTest extends FunSuite {
     sparkSession
       .readStream
       .schema(personStructType)
-      .json("./data/person")
+      .json("./data")
       .as[Person]
       .writeStream
       .foreach(personForeachWriter)
