@@ -14,8 +14,6 @@ class PartitionTest extends FunSuite {
 
   val dataframe = (1 to 10).toDF("number").persist(StorageLevel.MEMORY_AND_DISK)
 
-  override def afterAll(): Unit = dataframe.unpersist()
-
   test("partition") { // wide dependency-transformation, full ( evenly distributed ) shuffle
     assert( dataframe.rdd.partitions.length == 8 )
     dataframe.write.csv(s"./target/partitioned-numbers-${UUID.randomUUID.toString}")
