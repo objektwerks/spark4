@@ -13,7 +13,7 @@ import sparkSession.implicits.*
   * This test is inspired by this article:
   * https://towardsdatascience.com/spark-3-2-session-windowing-feature-for-streaming-data-e404d92e267
   */
-class WindowTest extends FunSuite {
+class WindowTest extends FunSuite:
   val data = List(
     Event(1, "2023-01-02 15:30:00"),
     Event(1, "2023-01-02 15:30:30"),
@@ -51,7 +51,7 @@ class WindowTest extends FunSuite {
   )
   val dataset = data.toDS().cache()
 
-  test("tumbling") {
+  test("tumbling"):
     val dataframe = dataset
       .withWatermark(eventTime = "datetime", delayThreshold = "10 minutes")
       .groupBy(
@@ -60,7 +60,6 @@ class WindowTest extends FunSuite {
       )
       .count()
     assert( dataframe.collect().nonEmpty )
-  }
 
   test("sliding") {
     val dataframe = dataset
@@ -99,4 +98,3 @@ class WindowTest extends FunSuite {
       .count()
     assert( dataframe.collect().nonEmpty )
   }
-}
