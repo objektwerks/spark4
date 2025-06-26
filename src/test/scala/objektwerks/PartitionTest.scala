@@ -9,7 +9,7 @@ import org.apache.spark.storage.StorageLevel
 import SparkInstance.*
 import sparkSession.implicits.*
 
-class PartitionTest extends FunSuite {
+class PartitionTest extends FunSuite:
   import scala3encoders.given
 
   val dataframe = (1 to 10).toDF("number").persist(StorageLevel.MEMORY_AND_DISK)
@@ -42,4 +42,3 @@ class PartitionTest extends FunSuite {
       .partitionBy("role")
       .parquet(file)
   }
-}
