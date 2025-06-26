@@ -46,3 +46,4 @@ class WordCountTest extends FunSuite:
       .awaitTermination(6000L)
     val words = sparkSession.sql("select * from words")
     assert( words.count == 122 )
+    assert( words.map(_.getLong(1)).collect.sum == 196 )
