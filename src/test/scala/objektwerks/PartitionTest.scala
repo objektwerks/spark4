@@ -23,7 +23,7 @@ class PartitionTest extends FunSuite {
 
   test("coalesce") { // narrow dependency-transformation, not a full shuffle, designed to reduce partitions
     val coalesced = dataframe.coalesce(2)
-    coalesced.rdd.partitions.length shouldEqual 2
+    assert( coalesced.rdd.partitions.length == 2 )
     coalesced.write.csv(s"./target/coalesced-numbers-${UUID.randomUUID.toString}")
   }
 
