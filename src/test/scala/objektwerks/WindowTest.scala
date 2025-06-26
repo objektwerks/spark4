@@ -61,7 +61,7 @@ class WindowTest extends FunSuite:
       .count()
     assert( dataframe.collect().nonEmpty )
 
-  test("sliding") {
+  test("sliding"):
     val dataframe = dataset
       .withWatermark(eventTime = "datetime", delayThreshold = "10 minutes")
       .groupBy(
@@ -70,9 +70,8 @@ class WindowTest extends FunSuite:
       )
       .count()
     assert( dataframe.collect().nonEmpty )
-  }
 
-  test("session") {
+  test("session"):
     val dataframe = dataset
       .withWatermark(eventTime = "datetime", delayThreshold = "10 minutes")
       .groupBy(
@@ -81,7 +80,6 @@ class WindowTest extends FunSuite:
       )
       .count()
     assert( dataframe.collect().nonEmpty )
-  }
 
   test("dynamic session") {
     val dataframe = dataset
