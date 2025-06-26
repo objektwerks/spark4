@@ -12,7 +12,7 @@ class StructuredStreamingTest extends FunSuite:
     sparkSession
       .readStream
       .schema(personStructType)
-      .json("./data")
+      .json("./data/streaming")
       .as[Person]
       .writeStream
       .foreach(personForeachWriter)
