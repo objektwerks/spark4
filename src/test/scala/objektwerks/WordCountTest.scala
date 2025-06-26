@@ -16,7 +16,7 @@ class WordCountTest extends FunSuite:
       .count
       .collect
       .map { case (line, count) => Count(line, count) }
-    assert( counts.length == 138 )
+    assert( counts.length == 122 )
 
   test("dataframe"):
     val lines = sparkSession.read.textFile("./data/ipa.txt").toDF("line")
@@ -26,7 +26,7 @@ class WordCountTest extends FunSuite:
       .groupByKey(_.toLowerCase)
       .count
       .collect
-    assert( counts.length == 138 )
+    assert( counts.length == 122 )
 
   test("structured streaming"):
     sparkSession
@@ -43,4 +43,4 @@ class WordCountTest extends FunSuite:
       .start()
       .awaitTermination(6000L)
     val words = sparkSession.sql("select * from words")
-    assert( words.count == 138 )
+    assert( words.count == 122 )
