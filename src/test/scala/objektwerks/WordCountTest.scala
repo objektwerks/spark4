@@ -2,13 +2,9 @@ package objektwerks
 
 import munit.FunSuite
 
-import org.apache.spark.sql.{Dataset, Row}
-import org.apache.spark.streaming.{Milliseconds, StreamingContext}
-
-import scala.collection.mutable
+import scala3encoders.given
 
 import SparkInstance.*
-import sparkSession.implicits.*
 
 class WordCountTest extends FunSuite {
   test("dataset") {
@@ -20,7 +16,7 @@ class WordCountTest extends FunSuite {
       .count
       .collect
       .map { case (line, count) => Count(line, count) }
-    counts.length shouldBe 138
+    assert( counts.length == 138 )
   }
 
   test("dataframe") {
@@ -31,7 +27,7 @@ class WordCountTest extends FunSuite {
       .groupByKey(_.toLowerCase)
       .count
       .collect
-    counts.length shouldBe 138
+    assert( counts.length == 138 )
   }
 
   test("structured streaming") {
@@ -49,6 +45,6 @@ class WordCountTest extends FunSuite {
       .start()
       .awaitTermination(6000L)
     val words = sparkSession.sql("select * from words")
-    words.count shouldBe 138
+    assert( words.count == 138 )
   }
 }
