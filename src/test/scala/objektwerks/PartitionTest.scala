@@ -28,8 +28,8 @@ class PartitionTest extends FunSuite {
   }
 
   test("repartition") {
-    dataframe.repartition(4).rdd.partitions.length shouldEqual 4
-    dataframe.repartition(2).rdd.partitions.length shouldEqual 2
+    assert( dataframe.repartition(4).rdd.partitions.length == 4 )
+    assert( dataframe.repartition(2).rdd.partitions.length == 2 )
   }
 
   test("partitionBy") {
