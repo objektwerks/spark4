@@ -33,7 +33,10 @@ class PartitionTest extends FunSuite {
   }
 
   test("partitionBy") {
-    val persons = sparkSession.read.json("./data/person/person.json").cache
+    val persons = sparkSession
+      .read
+      .json("./data/person/person.json")
+      .cache
     val file = s"./target/partitionby-roles-${UUID.randomUUID.toString}"
     persons
       .repartition(2)
