@@ -6,10 +6,9 @@ import scala3encoders.given
 
 import Person.{personForeachWriter, personStructType}
 import SparkInstance.*
-//import sparkSession.implicits.*
 
-class StructuredStreamingTest extends FunSuite {
-  test("structured") {
+class StructuredStreamingTest extends FunSuite:
+  test("structured"):
     sparkSession
       .readStream
       .schema(personStructType)
@@ -19,5 +18,3 @@ class StructuredStreamingTest extends FunSuite {
       .foreach(personForeachWriter)
       .start
       .awaitTermination(3000L)
-  }
-}
