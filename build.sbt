@@ -12,7 +12,7 @@ libraryDependencies ++= {
     ("org.apache.spark" %% "spark-sql" % sparkVersion).cross(CrossVersion.for3Use2_13),
     ("org.apache.spark" %% "spark-streaming" % sparkVersion).cross(CrossVersion.for3Use2_13),
     "com.h2database" % "h2" % "2.4.240",
-    "org.scalameta" %% "munit" % "1.1.2" % Test
+    "org.scalameta" %% "munit" % "1.2.0" % Test
   )
 }
 scalacOptions ++= Seq(
