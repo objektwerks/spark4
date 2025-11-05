@@ -3,7 +3,7 @@ organization := "objektwerks"
 version := "4.0.0"
 scalaVersion := "3.7.4-RC2"
 libraryDependencies ++= {
-  val sparkVersion = "4.0.0"
+  val sparkVersion = "4.0.1"
   val spark4Scala3Version = "0.3.2"
   Seq(
     "io.github.vincenzobaz" %% "spark4-scala3-encoders" % spark4Scala3Version,
