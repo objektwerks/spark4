@@ -1,6 +1,6 @@
 Spark 4
 -------
->Spark 4 feature apps and tests using Scala 3.
+>Spark 4 feature apps and tests using H2, MUnit and Scala 3.
 
 Issues
 ------
