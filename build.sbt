@@ -1,7 +1,7 @@
 name := "spark4"
 organization := "objektwerks"
 version := "4.0.0"
-scalaVersion := "3.8.0-RC6"
+scalaVersion := "3.7.4" // Don't upgrade!!!
 libraryDependencies ++= {
   val sparkVersion = "4.0.0"
   val spark4Scala3Version = "0.3.2"
