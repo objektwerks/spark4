@@ -9,11 +9,11 @@ Warning
 Issues
 ------
 1. **JDK**
->**WordCountApp**, executing on JDK 24, yields this error:
+>**WordCountApp**, executing on JDK 25, yields this error:
 
 ```java.lang.UnsupportedOperationException: getSubject is not supported```
 
->The **Security Manager**, the likely culprit, has been permanently disabled in JDK 24.
+>The **Security Manager**, the likely culprit, has been permanently disabled in JDK 25.
 
 2. **Fork**
 >And while **WordCountApp** works on JDK 21, the following exception is thrown:
