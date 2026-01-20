@@ -6,7 +6,6 @@ libraryDependencies ++= {
   val sparkVersion = "4.2.0-preview1"
   val spark4Scala3Version = "0.3.2"
   Seq(
-    "com.github.RoaringBitmap.RoaringBitmap" % "RoaringBitmap" % "0.9.47", 
     "io.github.vincenzobaz" %% "spark4-scala3-encoders" % spark4Scala3Version,
     "io.github.vincenzobaz" %% "spark4-scala3-udf" % spark4Scala3Version,
     ("org.apache.spark" %% "spark-core" % sparkVersion).cross(CrossVersion.for3Use2_13),
