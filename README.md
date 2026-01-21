@@ -4,7 +4,7 @@ Spark 4
 
 Warning
 -------
->Spark 4 currently requires JDK 17/21! So keeping up with JDK versions is an effort in futility. :)
+>Spark 4 currently requires JDK 17/21!
 
 Issues
 ------
