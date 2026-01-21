@@ -27,7 +27,7 @@ Issues
 
 JDK
 ---
->Setting ```JAVA_HOME``` to JDK 21 is the only way to enforce SBT's use of JDK 21. Using ```.jvmopts``` failed.
+>Setting ```JAVA_HOME``` to JDK 21 is the principal way to enforce SBT's use of JDK 21. Using ```.jvmopts``` fails.
 
 Build
 -----
